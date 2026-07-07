@@ -16,13 +16,12 @@ const nextConfig: NextConfig = {
     ],
     formats: ['image/avif', 'image/webp'],
     dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   experimental: {
     optimizeCss: true,
   },
-  async headers() {
+  // Remove headers or keep them minimal
+  headers: async () => {
     return [
       {
         source: '/_next/static/:path*',
@@ -30,15 +29,6 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=3600, stale-while-revalidate=86400',
           },
         ],
       },
